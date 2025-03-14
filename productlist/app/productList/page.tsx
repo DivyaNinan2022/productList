@@ -6,7 +6,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../css/productList.css";
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, CircularProgress, TextField } from "@mui/material";
 import ProductTable from "@/components/ProductTable";
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import debounce from "lodash.debounce";
@@ -32,7 +32,7 @@ export type ProductList = {
 
 function ProductSearch() {
   const dispatch = useDispatch<AppDispatch>();
-  const { products } = useSelector(productListSelector);
+  const { products, loading } = useSelector(productListSelector);
   const [searchTerm, setSearchTerm] = useState("");
   const [productList, setProductList] = useState<ProductList[]>([]);
   const [productBrands, setProductBrands] = useState<{ brand: string }[]>([]);
@@ -90,29 +90,39 @@ function ProductSearch() {
   return (
     <div className="container">
       <h1 className="headingStyle">Product List</h1>
-      <div className="table-container">
-      <div className="search-container-div">
-        <Autocomplete
-          className="search-container mb-5"
-          disablePortal
-          style={{ background: "white", border: "none" }}
-          options={productBrands}
-          value={productBrands.find((option) => option.brand === searchTerm) || null}
-          getOptionLabel={(option) => option.brand}
-          isOptionEqualToValue={(option, value) => option?.brand === value?.brand}
-          renderInput={(params) => (
-            <TextField
-              placeholder="Select Product Name"
-              {...params}
-              style={{ border: "none" }}
+      {loading ? (
+        <CircularProgress color="inherit" size={100} />
+      ) : (
+        <div className="table-container">
+          <div className="search-container-div">
+            <Autocomplete
+              className="search-container mb-5"
+              disablePortal
+              style={{ background: "white", border: "none" }}
+              options={productBrands}
+              value={
+                productBrands.find((option) => option.brand === searchTerm) ||
+                null
+              }
+              getOptionLabel={(option) => option.brand}
+              isOptionEqualToValue={(option, value) =>
+                option?.brand === value?.brand
+              }
+              renderInput={(params) => (
+                <TextField
+                  placeholder="Select Product Name"
+                  {...params}
+                  style={{ border: "none" }}
+                />
+              )}
+              onInputChange={handleInputChange}
+              onChange={handleOnChange}
             />
-          )}
-          onInputChange={handleInputChange}
-          onChange={handleOnChange}
-        />
-      </div>
-      <ProductTable list={productList} />
-    </div></div>
+          </div>
+          <ProductTable list={productList} />
+        </div>
+      )}
+    </div>
   );
 }
 
