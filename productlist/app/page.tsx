@@ -9,7 +9,13 @@ export default function Home() {
           href="/productList"
           className="flex items-center justify-center px-6 py-3 text-xl font-semibold text-white bg-blue-600 rounded-lg shadow-lg hover:bg-blue-700 transition-all"
         >
-          Please click here to view products
+          Please click here to view products(Using Redux)
+        </Link>
+        <Link
+          href="/productListWithQuery"
+          className="flex items-center justify-center px-6 py-3 text-xl font-semibold text-white bg-blue-600 rounded-lg shadow-lg hover:bg-blue-700 transition-all"
+        >
+          Please click here to view products(Using transtack-query)
         </Link>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">

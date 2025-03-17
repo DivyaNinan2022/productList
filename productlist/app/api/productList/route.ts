@@ -16,7 +16,7 @@
 // }
 
 export async function GET() {
-    const response = await fetch("http://fakestoreapi.in/api/products?limit=15", {
+    const response = await fetch("http://fakestoreapi.in/api/products", {
       headers: { "Content-Type": "application/json" },
     });
   

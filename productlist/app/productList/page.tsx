@@ -37,6 +37,7 @@ function ProductSearch() {
   const [productList, setProductList] = useState<ProductList[]>([]);
   const [productBrands, setProductBrands] = useState<{ brand: string }[]>([]);
 
+
   useEffect(() => {
     dispatch(fetchProductsThunk()).then((res) => {
       setProductList(res?.payload);
