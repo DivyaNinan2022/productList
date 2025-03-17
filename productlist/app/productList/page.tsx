@@ -86,41 +86,56 @@ function ProductSearch() {
     );
     setProductList(filteredProducts);
   };
-
+  console.log("loading", loading);
   return (
     <div className="container">
-      <h1 className="headingStyle">Product List</h1>
       {loading ? (
-        <CircularProgress color="inherit" size={100} />
-      ) : (
-        <div className="table-container">
-          <div className="search-container-div">
-            <Autocomplete
-              className="search-container mb-5"
-              disablePortal
-              style={{ background: "white", border: "none" }}
-              options={productBrands}
-              value={
-                productBrands.find((option) => option.brand === searchTerm) ||
-                null
-              }
-              getOptionLabel={(option) => option.brand}
-              isOptionEqualToValue={(option, value) =>
-                option?.brand === value?.brand
-              }
-              renderInput={(params) => (
-                <TextField
-                  placeholder="Select Product Name"
-                  {...params}
-                  style={{ border: "none" }}
-                />
-              )}
-              onInputChange={handleInputChange}
-              onChange={handleOnChange}
-            />
-          </div>
-          <ProductTable list={productList} />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <CircularProgress
+            color="primary"
+            size={100}
+            variant="indeterminate"
+          />
         </div>
+      ) : (
+        <>
+          <h1 className="headingStyle">Product List</h1>
+          {productList?.length > 0 ? (
+            <div className="table-container">
+              <div className="search-container-div">
+                <Autocomplete
+                  className="search-container mb-5"
+                  disablePortal
+                  style={{ background: "white", border: "none" }}
+                  options={productBrands}
+                  value={
+                    productBrands.find(
+                      (option) => option.brand === searchTerm
+                    ) || null
+                  }
+                  getOptionLabel={(option) => option.brand}
+                  isOptionEqualToValue={(option, value) =>
+                    option?.brand === value?.brand
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      placeholder="Select Product Name"
+                      {...params}
+                      style={{ border: "none" }}
+                    />
+                  )}
+                  onInputChange={handleInputChange}
+                  onChange={handleOnChange}
+                />
+              </div>
+              <ProductTable list={productList} />
+            </div>
+          ) : (
+            <div className="flex items-center justify-center h-screen text-gray-500 text-xl font-semibold">
+              No Products Loaded
+            </div>
+          )}
+        </>
       )}
     </div>
   );

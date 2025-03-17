@@ -9,9 +9,9 @@ interface ProductState {
   error: string | null;
 }
 
-const initialState: ProductState  = {
+const initialState: ProductState = {
   products: [],
-  loading: false,
+  loading: true,
   error: null,
 };
 // Fetch tasks
@@ -32,6 +32,9 @@ const productSlice = createSlice({
     clearError: (state) => {
       state.error = "";
     },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -48,7 +51,7 @@ const productSlice = createSlice({
       });
   },
 });
-export const { clearError} = productSlice.actions;
+export const { clearError, clearProducts, setLoading } = productSlice.actions;
 export const loginSelector = (state: RootState) => state.products;
 export const productListSelector = (state: RootState) => state.products;
 export default productSlice.reducer;
